@@ -1,0 +1,11 @@
+diff -u -r mackerel-agent-0.44.2-orig/Makefile mackerel-agent-0.44.2/Makefile
+--- mackerel-agent-0.44.2-orig/Makefile	2017-08-30 18:04:16.000000000 +0900
++++ mackerel-agent-0.44.2/Makefile	2017-09-23 18:46:37.000000000 +0900
+@@ -6,6 +6,7 @@
+ BUILD_OS_TARGETS = "linux darwin freebsd windows netbsd"
+ 
+ BUILD_LDFLAGS = "\
++	  -s -w \
+ 	  -X main.version=$(VERSION) \
+ 	  -X main.gitcommit=$(CURRENT_REVISION) \
+ 	  -X github.com/mackerelio/mackerel-agent/config.agentName=$(MACKEREL_AGENT_NAME) \

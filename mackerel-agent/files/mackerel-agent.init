@@ -1,0 +1,42 @@
+#!/bin/sh /etc/rc.common
+ 
+START=65
+STOP=15
+
+USE_PROCD=1
+
+NAME=mackerel-agent
+DAEMON=${DAEMON:="/usr/bin/$NAME"}
+BASECONFIGFILE="/var/etc/mackerel-agent.conf"
+
+mackerel_agent_instance()
+{
+    local cfg="${1}" apikey
+    local CONFIGFILE="${BASECONFIGFILE}.${cfg}"
+
+    config_get apikey "${cfg}" apikey
+
+    echo "# auto-generated config file from /etc/config/mackerel-agent" > $CONFIGFILE
+    echo >> $CONFIGFILE
+    if [ -n "${apikey}" ]; then
+        echo "apikey=\"${apikey}\"" >> $CONFIGFILE
+    fi
+    echo 'include = "/etc/mackerel-agent/*.conf"' >> $CONFIGFILE
+
+    procd_open_instance
+    procd_set_param command $DAEMON -conf=$CONFIGFILE -root=/etc/mackerel-agent/status
+    procd_set_param file /etc/mackerel-agent/mackerel-agent.conf # /etc/init.d/your_service reload will restart the daemon if these files have changed
+    procd_set_param stdout 1 # forward stdout of the command to logd
+    procd_set_param stderr 1 # same for stderr
+    procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+    procd_close_instance
+}
+
+start_service() {
+    local instance="$1"
+
+    . /lib/functions.sh
+
+    config_load "${NAME}"
+    config_foreach mackerel_agent_instance mackerel-agent
+}                 

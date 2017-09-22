@@ -1,0 +1,51 @@
+sudo: required
+language: c
+services: docker
+
+env:
+  global:
+    - DOCKERHUB_IMG=yhnw/openwrt-sdk
+    - BINTRAY_USER=hnw
+    - BINTRAY_REPO=openwrt-packages
+    - PKG_NAME=mackerel-agent
+    - QUIET=1 # 1: suppress build log / "": output all
+  matrix:
+    - DISTRO=openwrt-15.05.1 ARCH=ar71xx PKG_DIR=bin/ar71xx/packages
+    - DISTRO=lede-17.01.2    ARCH=ar71xx PKG_DIR=bin/packages/mips_24kc
+
+before_install:
+  - docker version
+  - mkdir $PWD/pkgs
+  - chmod 777 $PWD/pkgs
+
+script:
+  - docker run --rm -u openwrt -v $PWD:/work ${DOCKERHUB_IMG}:${DISTRO}-${ARCH} /bin/bash /work/build.sh ${DISTRO}-${ARCH} $PKG_DIR $PKG_NAME $QUIET
+  - ls -la
+
+after_failure:
+  - if [[ -e pkgs/build.log ]]; then tail -300 pkgs/build.log; fi
+
+before_deploy:
+  - |
+    if [[ -n "$TRAVIS_TAG" ]]; then
+      export VERSION=stable;
+      export VCS_TAG="$TRAVIS_TAG";
+      export DESC="Stable release";
+      export UPLOAD_DIR_SUFFIX=;
+    else
+      export VERSION=develop;
+      export VCS_TAG=HEAD;
+      export DESC="Development snapshot";
+      export UPLOAD_DIR_SUFFIX=-dev;
+    fi
+  - export RELEASED=$(date +%Y-%m-%d);
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: "EFwEWHzYIxjc4ymcwd0d+vyNbCde88hG+sIzwhWnMq4O695eeNesxg3Dx1pjTTuIHGVME5OZks294T09Zq9thf13PaSrR7Skv6qMoHFWs5qXgasATX1Ah1FPoBBXb+/r+8crflUCroFAOmtn8H3fZp6DYVg4ojYaMARMyWQvG3dmCU3JQQu7bDOOboqJZRGjBNJpzq4Q8Dd6kpuAi8sH2Lg/beZt70I4q6gZlrw1AJoS5VHVMxp6NFx9RqU7p64K/RRKX5gwC9VFkwsr5xTDraEjQm+uL6VSWBzBcEbEIMQJNfTHrlLcvFgRswuE664v8ArD2hsVyKM8vFaqJKIRciEc40L9Qxzw8YUFgn6LZWK9uyvirBXhYGCowuHojAxFcjYkz1TAXjowPcojdqTrYAeBp03gHUh+m/Fz/b5D64WBFSQ/S6sMvBjYzJ8mCGSQp2sUahTuf9jIQLD4pH2M0+5FfzVX4L/eTpXJaStIfVk5YJvzk3orsCdHpdJzV6s06aIjdeTlDlk9wrfjVdg1aYr1cTCvi9ly4HRhaN+gx6liHZ/Zky10h0eVuOpHnG9WCuWAhbD7Oj6DRxspkmVGxEs3y6Rinb3vt36drX+wpx3yzsavcn69Z6G+uJSFXjap98e0nlzMl2xa3d3tBmhX7/65pogYjVggAEa7iRVIg50="
+    file_glob: true
+    file: "pkgs/for-github/*.ipk"
+    skip_cleanup: true
+    on:
+      tags: true

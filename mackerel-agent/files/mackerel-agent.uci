@@ -1,0 +1,2 @@
+config mackerel-agent
+	option apikey ''
