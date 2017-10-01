@@ -13,6 +13,7 @@ env:
     - DISTRO=openwrt-15.05.1 ARCH=ar71xx        PKG_DIR=bin/ar71xx/packages
     - DISTRO=lede-17.01.2    ARCH=ar71xx        PKG_DIR=bin/packages/mips_24kc
     - DISTRO=lede-17.01.2    ARCH=ramips-mt7620 PKG_DIR=bin/packages/mipsel_24kc
+    - DISTRO=lede-17.01.2    ARCH=bcm53xx       PKG_DIR=bin/packages/arm_cortex-a9
 
 before_install:
   - docker version

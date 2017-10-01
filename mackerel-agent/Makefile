@@ -26,6 +26,7 @@ define Package/mackerel-agent
   CATEGORY:=Administration
   TITLE:=mackerel.io agent
   URL:=https://mackerel.io/
+  DEPENDS:=+ca-certificates
 endef
 
 define Package/mackerel-agent/description
