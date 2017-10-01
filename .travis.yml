@@ -51,3 +51,13 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+  - provider: gcs
+    access_key_id: "GOOGZU4AGJJUVQ4DLX52"
+    secret_access_key:
+      secure: "fMhTjeCrbLuaWZZSYgyIPR2wi/acZ+TqSJDuZSjNkrvGO8dMvGoO2APeroNy+DH1YVMmiYVsgAL6iWvoUj04QKVlgo7Gl3ntxszYg1jD73k0Yf6IgEBGIltVYXVI0scX3ER7oj9u4rP4mJwMw4DkCfdNSTM9RB3uqV0V6SZuR3hsxhqQX3cbepNcYblfp7Tl+Es2dSm+Bln09RxvprMOS+pXKr44g7lRe8G78BZ5y2mVC4JOeLtMgDrCo4yAclGHcX3cAP+QUPW4oz2fKCa2Wmw6BOQKAXQBvfZBrPpVQGA59PzLODXnpU6VCPy4u4FInDA6YQKdTa7VoBv2QEcd3oGw6IVpg67BZfsvUn0FYCNNCMMo6EfmSaO276g1HYXStXgy4qXek+NOIJ7q/BMxp6iP4J/EshoOLXLP3mx2A8lUKY0A2LbLFFzJUS6IXhhh1doSEArDGE5AoBQppT6CJdqS7saqpLZK63hsOsVvsFJkTtEuKf8plruv9lDy6uCMJEzrIOW7FsTA7CWBN0fRxdAV8XQrGq5cDYiNOPLl1CZ/YFV/INXAmzXc4bw7Mtanuwl/6Ei9PPNMYbMmf/ZeKcjDVOK+3g3Nxew3CMMyilGJ5CATfhfiihlKt0jo9h4UhiJRRhu87NEmjUB4Cj2vQ73Q9oYZ3EKIXDtEGwm4fCg="
+    bucket: "hnw-gcs-bucket-for-travis"
+    skip_cleanup: true
+    local-dir: pkgs/for-github/
+    upload-dir: $(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_BUILD_NUMBER}
+    on:
+      branch: master
