@@ -5,9 +5,8 @@ services: docker
 env:
   global:
     - DOCKERHUB_IMG=yhnw/openwrt-sdk
-    - BINTRAY_USER=hnw
-    - BINTRAY_REPO=openwrt-packages
     - PKG_NAME=mackerel-agent
+    - OPENWRT_GID=1000
     - QUIET=1 # 1: suppress build log / "": output all
   matrix:
     - DISTRO=openwrt-15.05.1 ARCH=ar71xx        PKG_DIR=bin/ar71xx/packages
@@ -18,7 +17,14 @@ env:
 before_install:
   - docker version
   - mkdir $PWD/pkgs
-  - chmod 777 $PWD/pkgs
+  - |
+    if [[ "$(cat /etc/group | grep $OPENWRT_GID | wc -l)" == "0" ]]; then
+        sudo groupadd -g $OPENWRT_GID openwrt
+        sudo chgrp openwrt $PWD/pkgs
+    else
+        sudo chgrp "$(getent group $OPENWRT_GID | cut -d: -f1)" $PWD/pkgs
+    fi
+  - sudo chmod g+ws $PWD/pkgs
 
 script:
   - docker run --rm -u openwrt -v $PWD:/work ${DOCKERHUB_IMG}:${DISTRO}-${ARCH} /bin/bash /work/build.sh ${DISTRO}-${ARCH} $PKG_DIR $PKG_NAME $QUIET
@@ -26,21 +32,6 @@ script:
 
 after_failure:
   - if [[ -e pkgs/build.log ]]; then tail -300 pkgs/build.log; fi
-
-before_deploy:
-  - |
-    if [[ -n "$TRAVIS_TAG" ]]; then
-      export VERSION=stable;
-      export VCS_TAG="$TRAVIS_TAG";
-      export DESC="Stable release";
-      export UPLOAD_DIR_SUFFIX=;
-    else
-      export VERSION=develop;
-      export VCS_TAG=HEAD;
-      export DESC="Development snapshot";
-      export UPLOAD_DIR_SUFFIX=-dev;
-    fi
-  - export RELEASED=$(date +%Y-%m-%d);
 
 deploy:
   - provider: releases
