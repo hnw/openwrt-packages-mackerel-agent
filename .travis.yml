@@ -52,3 +52,11 @@ deploy:
     upload-dir: $(basename ${TRAVIS_REPO_SLUG})-${TRAVIS_BUILD_NUMBER}
     on:
       branch: master
+
+jobs:
+  include:
+    -
+      if: branch = master
+      stage: Push release tag
+      script: ./git-tag.sh
+      deploy: []
