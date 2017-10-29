@@ -25,7 +25,7 @@ mackerel_agent_instance()
 
     procd_open_instance
     procd_set_param command $DAEMON -conf=$CONFIGFILE -root=/etc/mackerel-agent/status
-    procd_set_param file /etc/mackerel-agent/mackerel-agent.conf # /etc/init.d/your_service reload will restart the daemon if these files have changed
+    procd_set_param file /etc/mackerel-agent/*.conf
     procd_set_param stdout 1 # forward stdout of the command to logd
     procd_set_param stderr 1 # same for stderr
     procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}

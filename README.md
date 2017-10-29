@@ -1,27 +1,10 @@
-# openwrt-packages-mackerel-agent
+# openwrt-packages-mackerel-agent [![Build Status](https://secure.travis-ci.org/hnw/openwrt-packages-mackerel-agent.svg?branch=master)](https://travis-ci.org/hnw/openwrt-packages-mackerel-agent)
 
-This is `mackerel-agent` package for OpenWrt 15.05.1 / LEDE 17.01.2
+This is [mackerel-agent](https://github.com/mackerelio/mackerel-agent/) package for OpenWrt, tested on OpenWrt 15.05.1 / LEDE 17.01.4.
 
 # How to install binary package
 
-Download appropriate package for the architecture of your target machine from "[Releases](https://github.com/hnw/openwrt-packages-mackerel-agent/releases)" and copy the package to the target machine.
-
-For example:
-
-```
-$ wget https://github.com/hnw/openwrt-packages-mackerel-agent/releases/download/0.45.0-2/lede-17.01.2-ar71xx-mackerel-agent_0.45.0-2_mips_24kc.ipk
-$ scp lede-17.01.2-ar71xx-mackerel-agent_0.45.0-2_mips_24kc.ipk lede:/tmp
-$ ssh lede
-# opkg update
-# opkg install /tmp/lede-17.01.2-ar71xx-mackerel-agent_0.45.0-2_mips_24kc.ipk
-```
-
-Then, set API key from mackerel.io to uci.
-
-```
-$ uci set mackerel-agent.@mackerel-agent[0].apikey=APIKEY
-$ uci commit
-```
+See [hnw/openwrt-packages](https://github.com/hnw/openwrt-packages).
 
 # How to build
 

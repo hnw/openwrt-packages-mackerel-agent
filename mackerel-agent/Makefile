@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mackerel-agent
-PKG_VERSION:=0.46.0
-PKG_RELEASE:=4
+PKG_VERSION:=0.47.1
+PKG_RELEASE:=1
 
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/mackerelio/mackerel-agent/archive/
-PKG_MD5SUM:=22da85d530b11f05f58feaba0e561045
+PKG_MD5SUM:=8dd49856a5a49572fe55a4938e8d7b4f
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
@@ -21,7 +21,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_SOURCE_SUBDIR)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/mackerel-agent
+define Package/$(PKG_NAME)
   SECTION:=admin
   CATEGORY:=Administration
   TITLE:=mackerel.io agent
@@ -29,7 +29,7 @@ define Package/mackerel-agent
   DEPENDS:=+ca-certificates
 endef
 
-define Package/mackerel-agent/description
+define Package/$(PKG_NAME)/description
   mackerel.io agent
   Server monitoring agent for https://mackerel.io (Monitoring SaaS)
 endef
@@ -80,7 +80,7 @@ define Build/Install
 	true
 endef
 
-define Package/mackerel-agent/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/build/$(PKG_NAME) $(1)/usr/bin/
 
@@ -94,4 +94,4 @@ define Package/mackerel-agent/install
 	$(INSTALL_CONF) ./files/$(PKG_NAME).uci $(1)/etc/config/$(PKG_NAME)
 endef
 
-$(eval $(call BuildPackage,mackerel-agent))
+$(eval $(call BuildPackage,$(PKG_NAME)))
