@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mackerel-agent
-PKG_VERSION:=0.47.1
+PKG_VERSION:=0.54.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/mackerelio/mackerel-agent/archive/
-PKG_MD5SUM:=8dd49856a5a49572fe55a4938e8d7b4f
+PKG_MD5SUM:=698fa3f00928fda868e825f26802fb24
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
