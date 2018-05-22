@@ -71,7 +71,6 @@ define Build/Configure
 endef
 
 define Build/Compile
-	make -C $(PKG_BUILD_DIR) generate
 	$(CROSS_COMPILE_GOENVS) make CC=gcc -C $(PKG_BUILD_DIR) build
 	upx --best $(PKG_BUILD_DIR)/build/$(PKG_NAME)
 endef
