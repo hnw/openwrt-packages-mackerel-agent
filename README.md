@@ -8,10 +8,11 @@ See [hnw/openwrt-packages](https://github.com/hnw/openwrt-packages).
 
 # How to build
 
-To build these packages, add the following line to the feeds.conf in the OpenWrt buildroot:
+To build these packages, add the following line to the feeds.conf in the OpenWrt buildroot/SDK environment:
 
 ```
-$ echo 'src-git hnw_mackerel-agent https://github.com/hnw/openwrt-packages-mackerel-agent.git' >> feeds.conf
+$ cp feeds.conf.default feeds.conf # if needed
+$ echo 'src-git hnw_mackerel_agent https://github.com/hnw/openwrt-packages-mackerel-agent.git' >> feeds.conf
 ```
 
 Then you can build packages as follows:
@@ -19,5 +20,7 @@ Then you can build packages as follows:
 ```
 $ ./scripts/feeds update -a
 $ ./scripts/feeds install mackerel-agent
+$ make defconfig
+$ make package/toolchain/compile
 $ make packages/mackerel-agent/compile
 ```
