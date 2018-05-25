@@ -22,7 +22,7 @@ Then you can build packages as follows:
 # ./scripts/feeds install mackerel-agent
 # make defconfig
 # make package/toolchain/compile
-# make packages/mackerel-agent/compile
+# make package/mackerel-agent/compile
 ```
 
 # Settings
