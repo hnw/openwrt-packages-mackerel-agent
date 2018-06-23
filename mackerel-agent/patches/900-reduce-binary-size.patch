@@ -13,15 +13,11 @@ diff -c -r mackerel-agent-0.55.0.orig/Makefile mackerel-agent-0.55.0/Makefile
   	  -X github.com/mackerelio/mackerel-agent/config.agentName=$(MACKEREL_AGENT_NAME) \
 ***************
 *** 18,23 ****
---- 19,30 ----
+--- 19,26 ----
   
   build: deps
   	go build -ldflags=$(BUILD_LDFLAGS) \
-+ 	  -gcflags all=-trimpath=$(PWD) \
-+ 	  -gcflags all=-trimpath=$(shell go env GOPATH)/src \
 + 	  -gcflags all=-trimpath=$(shell go env GOROOT)/src \
-+ 	  -asmflags all=-trimpath=$(PWD) \
-+ 	  -asmflags all=-trimpath=$(shell go env GOPATH)/src \
 + 	  -asmflags all=-trimpath=$(shell go env GOROOT)/src \
   	  -o build/$(MACKEREL_AGENT_NAME)
   
