@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mackerel-agent
 PKG_VERSION:=0.55.0
-PKG_RELEASE:=1
+PKG_RELEASE:=16
 
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
@@ -66,8 +66,12 @@ endif
 
 CROSS_COMPILE_GOENVS:=GOOS=linux GOARCH=$(GOARCH) $(GOSOFTFLOAT)
 
+define Package/$(PKG_NAME)/conffiles
+/etc/config/$(PKG_NAME)
+/etc/$(PKG_NAME)
+endef
+
 define Build/Configure
-	true
 endef
 
 define Build/Compile
@@ -83,8 +87,9 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/build/$(PKG_NAME) $(1)/usr/bin/
 
-	$(INSTALL_DIR) $(1)/etc/mackerel-agent/status
-	$(INSTALL_CONF) ./files/$(PKG_NAME).conf $(1)/etc/mackerel-agent/
+	$(INSTALL_DIR) $(1)/etc/$(PKG_NAME)
+	$(INSTALL_DIR) $(1)/etc/$(PKG_NAME)/status
+	$(INSTALL_CONF) ./files/$(PKG_NAME).conf $(1)/etc/$(PKG_NAME)/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/$(PKG_NAME).init $(1)/etc/init.d/$(PKG_NAME)

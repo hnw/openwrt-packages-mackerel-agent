@@ -1,2 +1,2 @@
 config mackerel-agent
-	option apikey ''
+	option apikey '[APIKEY for mackerel.io]'
