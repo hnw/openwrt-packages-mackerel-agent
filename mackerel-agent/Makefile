@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mackerel-agent
 PKG_VERSION:=0.55.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
@@ -72,7 +72,7 @@ endef
 
 define Build/Compile
 	$(CROSS_COMPILE_GOENVS) make CC=gcc -C $(PKG_BUILD_DIR) build
-	upx --best $(PKG_BUILD_DIR)/build/$(PKG_NAME)
+#	upx --best $(PKG_BUILD_DIR)/build/$(PKG_NAME)
 endef
 
 define Build/Install
