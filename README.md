@@ -29,5 +29,5 @@ Then you can build packages as follows:
 
 ```
 # uci set mackerel-agent.@mackerel-agent[0].apikey="[APIKEY]"
-# uci commit
+# uci commit mackerel-agent
 ```
