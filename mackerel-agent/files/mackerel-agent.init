@@ -38,7 +38,7 @@ start_service() {
     . /lib/functions.sh
 
     config_load "${NAME}"
-    config_foreach mackerel_agent_instance mackerel-agent
+    config_foreach mackerel_agent_instance "${NAME}"
 }
 
 reload_service() {
